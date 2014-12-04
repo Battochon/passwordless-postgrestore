@@ -1,0 +1,42 @@
+{
+  "name": "passwordless-postgrestore",
+  "version": "0.0.1",
+  "description": "PostgreSQL TokenStore for Passwordless",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "bcrypt": "^0.7.8",
+    "passwordless-tokenstore": "0.0.10",
+    "pg": "^3.6.0"
+  },
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "chance": "^0.5.6",
+    "grunt": "~0.4.4",
+    "grunt-mocha-test": "~0.10.2",
+    "mocha": "~1.18.2",
+    "node-uuid": "^1.4.1",
+    "passwordless-tokenstore-test": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Battochon/passwordless-postgrestore.git"
+  },
+  "keywords": [
+    "postgresql",
+    "passwordless",
+    "token",
+    "otpw",
+    "one-time-password",
+    "store",
+    "tokenstore"
+  ],
+  "author": "Bruno MARQUES <bruno@lookup-media.com> (http://marques.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/battochon/passwordless-postgrestore/issues"
+  },
+  "homepage": "https://github.com/battochon/passwordless-postgrestore"
+}
