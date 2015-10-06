@@ -48,6 +48,7 @@ passwordless.init(new PostgreStore('postgres://user:password@localhost/database'
 ## PostgreSQL table creation
 You could use this SQL statement to create the token table, or you can customize it according to your needs :
 
+```sql
 CREATE TABLE passwordless
 (
   id serial NOT NULL,
@@ -59,7 +60,7 @@ CREATE TABLE passwordless
   CONSTRAINT passwordless_token_key UNIQUE (token),
   CONSTRAINT passwordless_uid_key UNIQUE (uid)
 )
-
+```
 
 ## Hash and salt
 As the tokens are equivalent to passwords (even though only for a limited time) they have to be protected in the same way. passwordless-postgrestore uses [bcrypt](https://github.com/ncb000gt/node.bcrypt.js/) with automatically created random salts. To generate the salt 10 rounds are used.
