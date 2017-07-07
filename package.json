@@ -1,6 +1,6 @@
 {
   "name": "passwordless-postgrestore",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "PostgreSQL TokenStore for Passwordless",
   "main": "index.js",
   "scripts": {
