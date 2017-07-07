@@ -7,9 +7,9 @@ var chance = new require('chance')();
 var PostgreStore = require('../');
 var TokenStore = require('passwordless-tokenstore');
 
-var pg = require("pg");
+var pg = require('pg');
 var pgClient = null;
-var conString = 'postgres://angelmm@localhost/angelmm';
+var conString = 'postgres://postgres:password@localhost/postgres';
 
 var standardTests = require('passwordless-tokenstore-test');
 
