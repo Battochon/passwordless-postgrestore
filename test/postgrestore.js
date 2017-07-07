@@ -9,7 +9,7 @@ var TokenStore = require('passwordless-tokenstore');
 
 var pg = require("pg");
 var pgClient = null;
-var conString = 'postgres://postgres:password@localhost/postgres';
+var conString = 'postgres://angelmm@localhost/angelmm';
 
 var standardTests = require('passwordless-tokenstore-test');
 
@@ -69,8 +69,8 @@ describe('Specific tests', function() {
 		var store = TokenStoreFactory();
 		var user = chance.email();
 		var token = uuid.v4();
-		store.storeOrUpdate(token, user, 
-			1000*60, 'http://' + chance.domain() + '/page.html', 
+		store.storeOrUpdate(token, user,
+			1000*60, 'http://' + chance.domain() + '/page.html',
 			function() {
                 pgClient.query('SELECT * FROM passwordless WHERE uid=$1',[user], function(err, obj) {
 					expect(err).to.not.exist;
@@ -87,16 +87,16 @@ describe('Specific tests', function() {
 		var user = chance.email();
 		var token = uuid.v4();
 		var hashedToken1;
-		store.storeOrUpdate(token, user, 
-			1000*60, 'http://' + chance.domain() + '/page.html', 
+		store.storeOrUpdate(token, user,
+			1000*60, 'http://' + chance.domain() + '/page.html',
 			function() {
                 pgClient.query('SELECT * FROM passwordless WHERE uid=$1',[user], function(err, obj) {
 					expect(err).to.not.exist;
 					expect(obj).to.exist;
 					expect(obj.rows[0].token).to.exist;
 					hashedToken1 = obj.rows[0].token;
-					store.storeOrUpdate(token, user, 
-						1000*60, 'http://' + chance.domain() + '/page.html', 
+					store.storeOrUpdate(token, user,
+						1000*60, 'http://' + chance.domain() + '/page.html',
 						function() {
                             pgClient.query('SELECT * FROM passwordless WHERE uid=$1',[user], function(err, obj) {
 								expect(err).to.not.exist;
@@ -104,9 +104,9 @@ describe('Specific tests', function() {
 								expect(obj.rows[0].token).to.exist;
 								expect(obj.rows[0].token).to.not.equal(hashedToken1);
 								done();
-							});						
+							});
 						});
 				})
-			});		
+			});
 	});
 });
