@@ -45,14 +45,6 @@ standardTests(TokenStoreFactory, beforeEachTest, afterEachTest, 1000);
 
 describe('Specific tests', function() {
 
-	beforeEach(function(done) {
-		beforeEachTest(done);
-	});
-
-	afterEach(function(done) {
-		afterEachTest(done);
-	});
-
 	it('should allow the instantiation with an empty constructor', function () {
 		expect(function() { new PostgreStore() }).to.not.throw;
 	});
@@ -63,6 +55,11 @@ describe('Specific tests', function() {
 
 	it('should allow proper instantiation', function () {
 		expect(function() { TokenStoreFactory() }).to.not.throw;
+	});
+
+	it('should disconnect without error', function() {
+		var store = TokenStoreFactory();
+		expect(function() { store.disconnect() }).to.not.throw;
 	});
 
 	it('should store tokens only in their hashed form', function(done) {
