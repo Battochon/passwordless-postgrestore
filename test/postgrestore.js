@@ -9,8 +9,6 @@ var PostgreStore = require('../');
 var TokenStore = require('passwordless-tokenstore');
 
 var pg = require('pg');
-var pgClient = null;
-var conString = 'postgres://postgres:password@localhost/postgres';
 
 var standardTests = require('passwordless-tokenstore-test');
 
@@ -18,26 +16,21 @@ function TokenStoreFactory(options) {
 	return new PostgreStore(conString, options);
 }
 
-var pgDoneCallback;
+var conString = 'postgres://localhost';
+var pgClient = new pg.Pool(conString);
+
+pgClient.connect(function (err) {
+	if (err) {
+		done(err);
+		throw new Error('Could not connect to Postgres database, with error : ' + err);
+	}
+});
 
 var beforeEachTest = function(done) {
-    if(!pgClient) {
-        pg.connect(conString, function(err, newClient, pgDone) {
-            if(err) {
-                done(err);
-                throw new Error('Could not connect to Postgres database, with error : ' + err);
-            }
-            pgClient = newClient;
-            done();
-            pgDoneCallback = pgDone;
-        });
-    }else{
-        done();
-    }
+	done();
 };
 
 var afterEachTest = function(done) {
-    pgDoneCallback();
     done();
 };
 
@@ -63,7 +56,12 @@ describe('Specific tests', function() {
 	});
 
 	it('should allow proper instantiation', function () {
-		expect(function() { TokenStoreFactory() }).to.not.throw;
+		expect(function () { TokenStoreFactory() }).to.not.throw;
+	});
+
+	it('should disconnect without errors', function () {
+		var store = TokenStoreFactory();
+		expect(function () { store.disconnect() }).to.not.throw;
 	});
 
 	it('should store tokens only in their hashed form', function(done) {
