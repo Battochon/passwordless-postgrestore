@@ -1,5 +1,6 @@
 'use strict';
 
+var bcrypt = require('bcrypt');
 var expect = require('chai').expect;
 var uuid = require('node-uuid');
 var chance = new require('chance')();
@@ -13,8 +14,8 @@ var conString = 'postgres://postgres:password@localhost/postgres';
 
 var standardTests = require('passwordless-tokenstore-test');
 
-function TokenStoreFactory() {
-	return new PostgreStore(conString);
+function TokenStoreFactory(options) {
+	return new PostgreStore(conString, options);
 }
 
 var pgDoneCallback;
@@ -77,6 +78,23 @@ describe('Specific tests', function() {
 					expect(obj).to.exist;
 					expect(obj.rows[0].token).to.exist;
 					expect(obj.rows[0].token).to.not.equal(token);
+					done();
+				})
+			});
+	});
+
+	it('should respect the bcrypt difficulty option', function (done) {
+		var store = TokenStoreFactory({ pgstore: { difficulty: 5 }});
+		var user = chance.email();
+		var token = uuid.v4();
+		store.storeOrUpdate(token, user,
+			1000 * 60, 'http://' + chance.domain() + '/page.html',
+			function () {
+				pgClient.query('SELECT token FROM passwordless WHERE uid=$1', [user], function (err, obj) {
+					expect(err).to.not.exist;
+					expect(obj).to.exist;
+					expect(obj.rows[0].token).to.exist;
+					expect(bcrypt.getRounds(obj.rows[0].token)).to.equal(5);
 					done();
 				})
 			});
